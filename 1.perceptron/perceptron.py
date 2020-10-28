@@ -1,4 +1,5 @@
 import numpy as np
+
 class Perceptron(object):
     """Perceptron classifier.
     
@@ -63,3 +64,16 @@ class Perceptron(object):
     def predict(self, X):
         """Return class label after unit step"""
         return np.where(self.net_input(X) >= 0.0, 1, -1)
+
+if __name__ == "__main__":
+  import pandas as pd
+  import os
+  dirname = os.path.dirname(__file__)
+  df = pd.read_csv(os.path.join(dirname, 'iris.csv'))
+  y = df.iloc[0:100, 4].values
+  y = np.where(y == 'Iris-setosa', -1, 1)
+  # extract sepal length and petal length
+  X = df.iloc[0:100, [0, 2]].values
+  perceptron = Perceptron()
+  perceptron.fit(X, y)
+  perceptron
