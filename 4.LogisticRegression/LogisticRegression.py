@@ -82,12 +82,16 @@ if __name__ == "__main__":
   import pandas as pd
   from sklearn import datasets
   from sklearn.model_selection import train_test_split
+  from sklearn.preprocessing import StandardScaler
   iris = datasets.load_iris()
   binary_filter = iris.target != 2
   X = iris.data[binary_filter][:, [2, 3]]
   y = iris.target[binary_filter]
+  sc = StandardScaler()
+  sc.fit(X)
+  X_std = sc.transform(X)
   X_train, X_test, y_train, y_test = train_test_split(
-      X, y, test_size=0.3, random_state=1, stratify=y)
+      X_std, y, test_size=0.3, random_state=1, stratify=y)
   lg = LogisticRegressionGD()
   lg.fit(X_train, y_train)
   result = lg.predict(X_test)
